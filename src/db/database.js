@@ -1,22 +1,17 @@
-// db/database.js
+const path = require('path'); 
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 const { Sequelize } = require('sequelize');
-const config = require('../config/config');
 
-const sequelize = new Sequelize(
-  config.development.database,
-  config.development.username,
-  config.development.password,
-
-  {
-    host: config.development.host,
-    dialect: config.development.dialect,
-    logging: false,
-  },
-);
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  logging: false,
+});
 
 sequelize
   .authenticate()
   .then(() => {
+    console.log('Conexión a la base de datos establecida con éxito.');
   })
   .catch(err => {
     console.error('No se pudo conectar a la base de datos:', err);
