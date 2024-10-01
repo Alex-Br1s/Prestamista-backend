@@ -16,12 +16,12 @@ app.use(express.json())
 app.use('/', route)
 
 sequelize.sync() //?force: true elimina la tabla existente y la vuelve a crear.
-/*.then(() => {
+.then(() => {
     console.log('La base de datos y las tablas han sido sincronizadas.');
 })
   .catch(err => {
     console.error('Error al sincronizar la base de datos:', err);
-});*/
+});
 
 app.listen(port, () => {
     console.log('Listening on port ' + port)
