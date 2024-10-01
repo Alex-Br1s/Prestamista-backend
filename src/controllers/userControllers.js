@@ -109,7 +109,7 @@ const updateUser = async (req, res) => {
       .status(500)
       .json({ response: "Ocurrió un error", error: error.message });
   }
-};
+}
 
 const deleteUser = async (req, res) => {
   const { id } = req.params;
