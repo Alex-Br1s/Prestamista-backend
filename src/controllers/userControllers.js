@@ -118,7 +118,7 @@ const deleteUser = async (req, res) => {
       where: {
         id,
       },
-    });
+    })
     return res
       .status(200)
       .json({ response: "Usuario eliminado con exito", data: userDeleted });
