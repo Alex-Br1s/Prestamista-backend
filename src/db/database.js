@@ -14,7 +14,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   },
   protocol: 'postgres',
   logging: false,
-});
+})
 
 sequelize
   .authenticate()
