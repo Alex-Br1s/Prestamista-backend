@@ -94,7 +94,7 @@ const updateUser = async (req, res) => {
       where: {
         id: id,
       },
-    });
+    })
     console.log(rowsUpdated);
     if (rowsUpdated > 0) {
       const updatedUser = await User.findByPk(id);
