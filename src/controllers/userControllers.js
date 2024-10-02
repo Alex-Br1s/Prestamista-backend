@@ -47,9 +47,9 @@ const createUser = async (req, res) => {
       moneyToPayment,
     };
     const saveUser = await User.create(dataUser);
-    return res.status(200).json(saveUser);
+    res.status(200).json({message: 'Usuario creado', data: saveUser});
   } catch (error) {
-    console.log("Error al crear un usuario");
+    res.status(500).json({ response: "Ocurrió un error al crear un usuario", error: error.message });
   }
 };
 
@@ -106,9 +106,7 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ response: "Usuario no encontrado" });
     }
   } catch (error) {
-    return res
-      .status(500)
-      .json({ response: "Ocurrió un error", error: error.message });
+    res.status(500).json({ response: "Ocurrió un error", error: error.message });
   }
 }
 
