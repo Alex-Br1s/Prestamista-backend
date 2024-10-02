@@ -165,7 +165,7 @@ const getUserPaymentHistory = async (req, res) => {
 
 const getUsersPendingPayments = async (req, res) => {
   try {
-    const pendingPayments = User.findAll({where: {pagado: false}})
+    const pendingPayments = await User.findAll({where: {pagado: false}})
     return res.status(200).json({response: 'Usuarios no pagados', data: pendingPayments})
   } catch (error) {
     return res.status(500).json({ error: error.message });
