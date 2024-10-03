@@ -30,6 +30,10 @@ const User = sequelize.define('User', {
     fechaPago: {
         type: DataTypes.STRING
     },
+    modalityPayment: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     paymentMethod: {
         type: DataTypes.STRING
     },
@@ -37,26 +41,16 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING
     },
     pagado:{
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     cancelado:{
-        type: DataTypes.BOOLEAN
-    },
-    daysPayment: {
-        type: DataTypes.STRING
-    },
-    moneyToPayment: {
-        type: DataTypes.INTEGER
-    },
-    modalityPayment: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    grupo: {
-        type: DataTypes.STRING
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     },
     totalPagado: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        defaultValue: 0
     }
 },{
     sequelize,

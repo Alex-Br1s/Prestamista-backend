@@ -1,12 +1,12 @@
 const { response } = require("express");
 const User = require("../models/modelUser");
 
-const getAllUser = async (req, res) => {
+const getAllUser = async (_req, res) => {
   try {
     const allUsers = await User.findAll();
-    return res.status(200).json(allUsers);
+    res.status(200).json(allUsers);
   } catch (error) {
-    console.log("Error al obtener todos los usuarios " + error.message);
+    console.log({response: "Error al obtener todos los usuarios", error: error.message});
   }
 };
 
@@ -18,33 +18,27 @@ const createUser = async (req, res) => {
     total,
     fechaPrestamo,
     fechaPago,
+    modalityPayment,
     paymentMethod,
     direccion,
-    modalityPayment,
-    grupo,
     totalPagado,
     pagado,
     cancelado,
-    daysPayment,
-    moneyToPayment,
   } = req.body;
   try {
     const dataUser = {
-      username,
-      lastName,
-      capitalPrestado,
-      total,
-      fechaPrestamo,
-      fechaPago,
-      paymentMethod,
-      direccion,
-      modalityPayment,
-      grupo,
-      totalPagado: 0,
-      pagado,
-      cancelado,
-      daysPayment,
-      moneyToPayment,
+    username,
+    lastName,
+    capitalPrestado,
+    total,
+    fechaPrestamo,
+    fechaPago,
+    modalityPayment,
+    paymentMethod,
+    direccion,
+    totalPagado,
+    pagado,
+    cancelado,
     };
     const saveUser = await User.create(dataUser);
     res.status(200).json({message: 'Usuario creado', data: saveUser});
@@ -62,33 +56,27 @@ const updateUser = async (req, res) => {
     total,
     fechaPrestamo,
     fechaPago,
+    modalityPayment,
     paymentMethod,
     direccion,
-    modalityPayment,
-    grupo,
     totalPagado,
     pagado,
     cancelado,
-    daysPayment,
-    moneyToPayment,
   } = req.body;
   try {
     const dataUser = {
-      username,
-      lastName,
-      capitalPrestado,
-      total,
-      fechaPrestamo,
-      fechaPago,
-      paymentMethod,
-      direccion,
-      modalityPayment,
-      grupo,
-      totalPagado,
-      pagado,
-      cancelado,
-      daysPayment,
-      moneyToPayment,
+    username,
+    lastName,
+    capitalPrestado,
+    total,
+    fechaPrestamo,
+    fechaPago,
+    modalityPayment,
+    paymentMethod,
+    direccion,
+    totalPagado,
+    pagado,
+    cancelado,
     };
     //?El método update devuelve un array donde el primer elemento es el número de filas afectadas (actualizadas en la db)
     const [rowsUpdated] = await User.update(dataUser, {
@@ -96,77 +84,59 @@ const updateUser = async (req, res) => {
         id: id,
       },
     })
-    console.log(rowsUpdated);
     if (rowsUpdated > 0) {
       const updatedUser = await User.findByPk(id);
-      return res
-        .status(200)
-        .json({ response: "Usuario editado con exito", data: updatedUser });
+      res.status(202).json({ response: "Usuario editado con exito", data: updatedUser });
     } else {
-      return res.status(404).json({ response: "Usuario no encontrado" });
+      res.status(404).json({ response: "Usuario no encontrado" });
     }
   } catch (error) {
-    res.status(500).json({ response: "Ocurrió un error", error: error.message });
+    res.status(500).json({ response: "Ocurrió un error al actualizar un usuario", error: error.message });
   }
 }
 
 const deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
-    const userDeleted = await User.destroy({
-      where: {
-        id,
-      },
-    })
-    return res
-      .status(200)
-      .json({ response: "Usuario eliminado con exito", data: userDeleted });
+    const userDeleted = await User.destroy({where: {id}})
+    res.status(200).json({ response: "Usuario eliminado con exito", data: userDeleted });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        response: "Error al querer eliminar un usuario",
-        error: error.message,
-      });
+    res.status(500).json({response: "Error al querer eliminar un usuario",error: error.message});
   }
 };
 
-const getCanceledUsers = async (req, res) => {
+const getCanceledUsers = async (_req, res) => {
   try {
     const usersCanceled = await User.findAll({
       where: {
         cancelado: true,
       },
     });
-    return res
-      .status(200)
-      .json({ response: "Usuarios cancelados obtenidos", data: usersCanceled });
+    res.status(200).json({ response: "Usuarios cancelados obtenidos", data: usersCanceled });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500).json({response: "Ocurrio un error al obtener los usuarios cancelados", error: error.message });
   }
 };
 
-const getUserPaymentHistory = async (req, res) => {
+const getUserPaymentHistory = async (_req, res) => {
   try {
     const usersPayment = await User.findAll({
       where: {
         pagado: true,
       },
     });
-    return res
-      .status(200)
-      .json({ response: "Historial de usuarios pagados", data: usersPayment });
+    res.status(200).json({ response: "Historial de usuarios pagados", data: usersPayment });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500).json({ response: "Error al obtener todos los usuarios pagados", error: error.message });
   }
 };
 
-const getUsersPendingPayments = async (req, res) => {
+const getUsersPendingPayments = async (_req, res) => {
   try {
     const pendingPayments = await User.findAll({where: {pagado: false}})
-    return res.status(200).json({response: 'Usuarios no pagados', data: pendingPayments})
+    res.status(200).json({response: 'Usuarios no pagados', data: pendingPayments})
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500).json({response: "Error al obtener los usuarios pendientes", error: error.message });
   }
 }
 
